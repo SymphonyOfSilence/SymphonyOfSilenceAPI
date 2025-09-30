@@ -1,16 +1,29 @@
-version: '3.8'
+version: "3.9"
+
 services:
-  postgres:
+  api:
+    build: .
+    container_name: symphony-api
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/symphony
+      NODE_ENV: production
+    depends_on:
+      - db
+
+  db:
     image: postgres:15
+    container_name: symphony-db
     restart: always
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: symphony
-      POSTGRES_PASSWORD: symphony
-      POSTGRES_DB: symphonydb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: symphony
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
 
 volumes:
-  postgres_data:
+  pgdata:
