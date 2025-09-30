@@ -18,18 +18,19 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20
+          cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Generate Prisma client
         run: npx prisma generate
 
       - name: Lint
-        run: npm run lint --if-present
+        run: npm run lint
 
       - name: Run tests
-        run: npm run test --if-present
+        run: npm run test
 
       - name: Build project
-        run: npm run build
+        run: npx nest build
